@@ -395,11 +395,9 @@ namespace LiftBuddyAPI.Models
                                 tblUser.Dob = Dob;
                             }
 
-                            tblUser.Height = detail.Height;
-                            tblUser.Weight = detail.Weight;
+                            
                             tblUser.Gender = detail.Gender;
-                            tblUser.HeightIn = detail.HeightIn;
-                            tblUser.WeightIn = detail.WeightIn;
+                            
                             tblUser.UserName = detail.UserName;
                             tblUser.Name = detail.Name;
 

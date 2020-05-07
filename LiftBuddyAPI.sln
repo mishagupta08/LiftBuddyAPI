@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiftBuddyAPI", "LiftBuddyAPI\LiftBuddyAPI.csproj", "{987B1DF8-9121-482A-A63B-117BAAE73F67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "..\DataAccess\DataAccess.csproj", "{A70B45E2-6CF7-4BCE-8E59-02A51998231D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{FD191937-68FF-4A17-BF2B-F2C69FFC6FFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{987B1DF8-9121-482A-A63B-117BAAE73F67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{987B1DF8-9121-482A-A63B-117BAAE73F67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{987B1DF8-9121-482A-A63B-117BAAE73F67}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A70B45E2-6CF7-4BCE-8E59-02A51998231D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A70B45E2-6CF7-4BCE-8E59-02A51998231D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A70B45E2-6CF7-4BCE-8E59-02A51998231D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A70B45E2-6CF7-4BCE-8E59-02A51998231D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD191937-68FF-4A17-BF2B-F2C69FFC6FFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD191937-68FF-4A17-BF2B-F2C69FFC6FFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD191937-68FF-4A17-BF2B-F2C69FFC6FFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD191937-68FF-4A17-BF2B-F2C69FFC6FFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
