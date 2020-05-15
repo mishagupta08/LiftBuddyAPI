@@ -34,6 +34,10 @@ namespace DataAccess
         public virtual DbSet<tblOtpTransaction> tblOtpTransactions { get; set; }
         public virtual DbSet<tblPointLedger> tblPointLedgers { get; set; }
         public virtual DbSet<tblUser> tblUsers { get; set; }
+        public virtual DbSet<tbleOfferRide> tbleOfferRides { get; set; }
+        public virtual DbSet<tblRequestRide> tblRequestRides { get; set; }
+        public virtual DbSet<tblVehicleType> tblVehicleTypes { get; set; }
+        public virtual DbSet<tblDriveVehicleType> tblDriveVehicleTypes { get; set; }
     
         [DbFunction("LiftBuddyEntities", "Split")]
         public virtual IQueryable<Split_Result> Split(string line, string splitOn)
@@ -81,6 +85,192 @@ namespace DataAccess
                 new ObjectParameter("end_date", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DateWiseUserStatus", userIDParameter, strt_dateParameter, end_dateParameter);
+        }
+    
+        public virtual ObjectResult<spGetVehicleTypeList_Result> spGetVehicleTypeList()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetVehicleTypeList_Result>("spGetVehicleTypeList");
+        }
+    
+        public virtual int spAddRequestRideDetail(string recordXml)
+        {
+            var recordXmlParameter = recordXml != null ?
+                new ObjectParameter("recordXml", recordXml) :
+                new ObjectParameter("recordXml", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spAddRequestRideDetail", recordXmlParameter);
+        }
+    
+        public virtual int sp_AssignCategory(string categoryIDs, Nullable<int> registerID)
+        {
+            var categoryIDsParameter = categoryIDs != null ?
+                new ObjectParameter("CategoryIDs", categoryIDs) :
+                new ObjectParameter("CategoryIDs", typeof(string));
+    
+            var registerIDParameter = registerID.HasValue ?
+                new ObjectParameter("RegisterID", registerID) :
+                new ObjectParameter("RegisterID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_AssignCategory", categoryIDsParameter, registerIDParameter);
+        }
+    
+        public virtual int spDeleteReduestRideDetail(Nullable<int> rideId)
+        {
+            var rideIdParameter = rideId.HasValue ?
+                new ObjectParameter("rideId", rideId) :
+                new ObjectParameter("rideId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spDeleteReduestRideDetail", rideIdParameter);
+        }
+    
+        public virtual int spEditRequestRideDetail(string recordXml)
+        {
+            var recordXmlParameter = recordXml != null ?
+                new ObjectParameter("recordXml", recordXml) :
+                new ObjectParameter("recordXml", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spEditRequestRideDetail", recordXmlParameter);
+        }
+    
+        public virtual ObjectResult<tblRequestRide> spGetReduestRideDetailById(Nullable<int> id, string request)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var requestParameter = request != null ?
+                new ObjectParameter("request", request) :
+                new ObjectParameter("request", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<tblRequestRide>("spGetReduestRideDetailById", idParameter, requestParameter);
+        }
+    
+        public virtual ObjectResult<tblRequestRide> spGetReduestRideDetailById(Nullable<int> id, string request, MergeOption mergeOption)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var requestParameter = request != null ?
+                new ObjectParameter("request", request) :
+                new ObjectParameter("request", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<tblRequestRide>("spGetReduestRideDetailById", mergeOption, idParameter, requestParameter);
+        }
+    
+        public virtual ObjectResult<RequestListContainer> spGetReduestRideDetailListById(Nullable<int> id, string request)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var requestParameter = request != null ?
+                new ObjectParameter("request", request) :
+                new ObjectParameter("request", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RequestListContainer>("spGetReduestRideDetailListById", idParameter, requestParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> spAddDriveVehicleTypeDetail(string recordXml, ObjectParameter identity)
+        {
+            var recordXmlParameter = recordXml != null ?
+                new ObjectParameter("recordXml", recordXml) :
+                new ObjectParameter("recordXml", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("spAddDriveVehicleTypeDetail", recordXmlParameter, identity);
+        }
+    
+        public virtual int spAddOfferRideDetail(string recordXml)
+        {
+            var recordXmlParameter = recordXml != null ?
+                new ObjectParameter("recordXml", recordXml) :
+                new ObjectParameter("recordXml", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spAddOfferRideDetail", recordXmlParameter);
+        }
+    
+        public virtual int spDeleteOfferRideDetail(Nullable<int> rideId)
+        {
+            var rideIdParameter = rideId.HasValue ?
+                new ObjectParameter("rideId", rideId) :
+                new ObjectParameter("rideId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spDeleteOfferRideDetail", rideIdParameter);
+        }
+    
+        public virtual int spDeletetblDriveVehicleTypeDetail(Nullable<int> rideId)
+        {
+            var rideIdParameter = rideId.HasValue ?
+                new ObjectParameter("rideId", rideId) :
+                new ObjectParameter("rideId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spDeletetblDriveVehicleTypeDetail", rideIdParameter);
+        }
+    
+        public virtual int spEditDriveVehicleType(string recordXml)
+        {
+            var recordXmlParameter = recordXml != null ?
+                new ObjectParameter("recordXml", recordXml) :
+                new ObjectParameter("recordXml", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spEditDriveVehicleType", recordXmlParameter);
+        }
+    
+        public virtual int spEditOfferRideDetail(string recordXml)
+        {
+            var recordXmlParameter = recordXml != null ?
+                new ObjectParameter("recordXml", recordXml) :
+                new ObjectParameter("recordXml", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spEditOfferRideDetail", recordXmlParameter);
+        }
+    
+        public virtual ObjectResult<tbleOfferRide> spGetOfferDetailById(Nullable<int> id, string request)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var requestParameter = request != null ?
+                new ObjectParameter("request", request) :
+                new ObjectParameter("request", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<tbleOfferRide>("spGetOfferDetailById", idParameter, requestParameter);
+        }
+    
+        public virtual ObjectResult<tbleOfferRide> spGetOfferDetailById(Nullable<int> id, string request, MergeOption mergeOption)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var requestParameter = request != null ?
+                new ObjectParameter("request", request) :
+                new ObjectParameter("request", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<tbleOfferRide>("spGetOfferDetailById", mergeOption, idParameter, requestParameter);
+        }
+    
+        public virtual ObjectResult<spGetOfferRideDetailListById_Result> spGetOfferRideDetailListById(Nullable<int> id, string request)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var requestParameter = request != null ?
+                new ObjectParameter("request", request) :
+                new ObjectParameter("request", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetOfferRideDetailListById_Result>("spGetOfferRideDetailListById", idParameter, requestParameter);
+        }
+    
+        public virtual int spGetDriveVehicleTypeById(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spGetDriveVehicleTypeById", idParameter);
         }
     }
 }

@@ -10,14 +10,12 @@
 namespace DataAccess
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class tblNotificationMaster
+    public partial class spGetVehicleTypeList_Result
     {
-        public int Id { get; set; }
-        public string Type { get; set; }
-        public string MessageDescription { get; set; }
-        public string RedirectTo { get; set; }
+        public decimal Id { get; set; }
+        public string VehicleTypeName { get; set; }
+        public string VehicleType { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
     }
 }

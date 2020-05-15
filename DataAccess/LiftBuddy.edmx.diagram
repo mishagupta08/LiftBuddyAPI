@@ -12,6 +12,10 @@
         <EntityTypeShape EntityType="LiftBuddyModel.tblOtpTransaction" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="LiftBuddyModel.tblPointLedger" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="LiftBuddyModel.tblUser" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiftBuddyModel.tbleOfferRide" Width="1.5" PointX="2.75" PointY="6.75" />
+        <EntityTypeShape EntityType="LiftBuddyModel.tblRequestRide" Width="1.5" PointX="4.75" PointY="6.75" />
+        <EntityTypeShape EntityType="LiftBuddyModel.tblVehicleType" Width="1.5" PointX="6.75" PointY="6.75" />
+        <EntityTypeShape EntityType="LiftBuddyModel.tblDriveVehicleType" Width="1.5" PointX="9.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

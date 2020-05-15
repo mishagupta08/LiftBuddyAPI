@@ -4,7 +4,36 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LiftBuddyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="LiftBuddyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblDriveVehicleType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Color" Type="varchar" MaxLength="100" />
+          <Property Name="Model" Type="varchar" MaxLength="100" />
+          <Property Name="VehicleTypeId" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="RegNo" Type="char" MaxLength="20" />
+          <Property Name="OfferingSeat" Type="int" />
+          <Property Name="Category" Type="varchar" MaxLength="50" />
+          <Property Name="Features" Type="varchar" MaxLength="50" />
+          <Property Name="IsHelmet" Type="char" MaxLength="5" />
+          <Property Name="CreationDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbleOfferRide">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StartAddress" Type="varchar" MaxLength="200" />
+          <Property Name="ViaDetail" Type="varchar" MaxLength="200" />
+          <Property Name="DestinationAddress" Type="varchar" MaxLength="200" />
+          <Property Name="JourneyDate" Type="datetime" />
+          <Property Name="DriveVehicleTypeId" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="UserId" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>
         <EntityType Name="tblFollowers">
           <Key>
             <PropertyRef Name="Id" />
@@ -42,6 +71,7 @@
           <Property Name="Type" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="MessageDescription" Type="nvarchar(max)" Nullable="false" />
           <Property Name="RedirectTo" Type="varchar" MaxLength="200" />
+          <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="tblOtpTransaction">
           <Key>
@@ -65,6 +95,19 @@
           <Property Name="Remark" Type="varchar" MaxLength="250" />
           <Property Name="RecordedDateTime" Type="datetime" />
         </EntityType>
+        <EntityType Name="tblRequestRide">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FromAddress" Type="varchar" MaxLength="200" />
+          <Property Name="ToAddress" Type="varchar" MaxLength="200" />
+          <Property Name="JourneyDate" Type="datetime" />
+          <Property Name="NoOfPerson" Type="int" />
+          <Property Name="CreationDate" Type="datetime" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="UserId" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>
         <EntityType Name="tblUser">
           <Key>
             <PropertyRef Name="Sno" />
@@ -81,6 +124,15 @@
           <Property Name="UserName" Type="varchar" MaxLength="255" />
           <Property Name="Sno" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
+        <EntityType Name="tblVehicleType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VehicleTypeName" Type="nchar" MaxLength="10" />
+          <Property Name="VehicleType" Type="char" MaxLength="5" />
+          <Property Name="CreatedDate" Type="datetime" />
+        </EntityType>
         <Function Name="AllDateWiseUserStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userID" Type="int" Mode="In" />
           <Parameter Name="strt_date" Type="datetime" Mode="In" />
@@ -91,17 +143,72 @@
           <Parameter Name="strt_date" Type="datetime" Mode="In" />
           <Parameter Name="end_date" Type="datetime" Mode="In" />
         </Function>
+        <Function Name="sp_AssignCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CategoryIDs" Type="nvarchar" Mode="In" />
+          <Parameter Name="RegisterID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spAddDriveVehicleTypeDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="recordXml" Type="xml" Mode="In" />
+          <Parameter Name="Identity" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="spAddOfferRideDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="recordXml" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="spAddRequestRideDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="recordXml" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="spDeleteOfferRideDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rideId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spDeleteReduestRideDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rideId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spDeletetblDriveVehicleTypeDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rideId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spEditDriveVehicleType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="recordXml" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="spEditOfferRideDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="recordXml" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="spEditRequestRideDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="recordXml" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="spGetDriveVehicleTypeById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spGetOfferDetailById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="request" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spGetOfferRideDetailListById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="request" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spGetReduestRideDetailById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="request" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spGetReduestRideDetailListById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="request" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spGetVehicleTypeList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="LiftBuddyModelStoreContainer">
+          <EntitySet Name="tblDriveVehicleType" EntityType="Self.tblDriveVehicleType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbleOfferRide" EntityType="Self.tbleOfferRide" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFollowers" EntityType="Self.tblFollowers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblLevelLedger" EntityType="Self.tblLevelLedger" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblNotification" EntityType="Self.tblNotification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblNotificationMaster" EntityType="Self.tblNotificationMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblOtpTransaction" EntityType="Self.tblOtpTransaction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblPointLedger" EntityType="Self.tblPointLedger" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblRequestRide" EntityType="Self.tblRequestRide" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblVehicleType" EntityType="Self.tblVehicleType" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LiftBuddyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -146,6 +253,7 @@
           <Property Name="Type" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="MessageDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="RedirectTo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="tblOtpTransaction">
           <Key>
@@ -207,7 +315,186 @@
             <Parameter Name="strt_date" Mode="In" Type="DateTime" />
             <Parameter Name="end_date" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <EntitySet Name="tbleOfferRides" EntityType="LiftBuddyModel.tbleOfferRide" />
+          <EntitySet Name="tblRequestRides" EntityType="LiftBuddyModel.tblRequestRide" />
+          <EntitySet Name="tblVehicleTypes" EntityType="LiftBuddyModel.tblVehicleType" />
+          <FunctionImport Name="spGetVehicleTypeList" ReturnType="Collection(LiftBuddyModel.spGetVehicleTypeList_Result)" />
+          <FunctionImport Name="spAddRequestRideDetail">
+          <Parameter Name="recordXml" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_AssignCategory">
+            <Parameter Name="CategoryIDs" Mode="In" Type="String" />
+            <Parameter Name="RegisterID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spDeleteReduestRideDetail">
+          <Parameter Name="rideId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spEditRequestRideDetail">
+          <Parameter Name="recordXml" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetReduestRideDetailById" EntitySet="tblRequestRides" ReturnType="Collection(LiftBuddyModel.tblRequestRide)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="request" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetReduestRideDetailListById" ReturnType="Collection(LiftBuddyModel.RequestListContainer)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="request" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spAddDriveVehicleTypeDetail" ReturnType="Collection(Int32)">
+            <Parameter Name="recordXml" Mode="In" Type="String" />
+            <Parameter Name="Identity" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spAddOfferRideDetail">
+          <Parameter Name="recordXml" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spDeleteOfferRideDetail">
+          <Parameter Name="rideId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spDeletetblDriveVehicleTypeDetail">
+          <Parameter Name="rideId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spEditDriveVehicleType">
+          <Parameter Name="recordXml" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spEditOfferRideDetail">
+          <Parameter Name="recordXml" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetOfferDetailById" EntitySet="tbleOfferRides" ReturnType="Collection(LiftBuddyModel.tbleOfferRide)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="request" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetOfferRideDetailListById" ReturnType="Collection(LiftBuddyModel.spGetOfferRideDetailListById_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="request" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetDriveVehicleTypeById">
+          <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="tblDriveVehicleTypes" EntityType="LiftBuddyModel.tblDriveVehicleType" />
         </EntityContainer>
+        <EntityType Name="tbleOfferRide">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ViaDetail" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DestinationAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="JourneyDate" Type="DateTime" Precision="3" />
+          <Property Name="DriveVehicleTypeId" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="UserId" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="tblRequestRide">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FromAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ToAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="JourneyDate" Type="DateTime" Precision="3" />
+          <Property Name="NoOfPerson" Type="Int32" />
+          <Property Name="CreationDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="UserId" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="tblVehicleType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VehicleTypeName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="VehicleType" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="spGetVehicleTypeList_Result">
+          <Property Type="Decimal" Name="Id" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="String" Name="VehicleTypeName" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="VehicleType" Nullable="true" MaxLength="5" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="spGetReduestRideDetailById_Result">
+          <Property Type="Decimal" Name="Id" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="String" Name="FromAddress" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ToAddress" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="JourneyDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="NoOfPerson" Nullable="true" />
+          <Property Type="DateTime" Name="CreationDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="UserId" Nullable="true" Precision="18" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="spGetReduestRideDetailListById_Result">
+          <Property Type="Decimal" Name="Id" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="String" Name="FromAddress" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ToAddress" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="JourneyDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="NoOfPerson" Nullable="true" />
+          <Property Type="DateTime" Name="CreationDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="UserId" Nullable="true" Precision="18" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="RequestListContainer">
+          <Property Type="Decimal" Name="Id" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="String" Name="FromAddress" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ToAddress" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="JourneyDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="NoOfPerson" Nullable="true" />
+          <Property Type="DateTime" Name="CreationDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="UserId" Nullable="true" Precision="18" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="spGetOfferDetailById_Result">
+          <Property Type="Decimal" Name="Id" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="String" Name="StartAddress" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ViaDetail" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="DestinationAddress" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="JourneyDate" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="DriveVehicleTypeId" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="UserId" Nullable="true" Precision="18" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="spGetOfferRideDetailListById_Result">
+          <Property Type="Decimal" Name="Id" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="String" Name="StartAddress" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ViaDetail" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="DestinationAddress" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="JourneyDate" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="DriveVehicleTypeId" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="UserId" Nullable="true" Precision="18" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="spGetDriveVehicleTypeById_Result">
+          <Property Type="Decimal" Name="Id" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="300" />
+          <Property Type="String" Name="VehicleType" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Color" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Model" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="VehicleTypeId" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="RegNo" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="OfferingSeat" Nullable="true" />
+          <Property Type="String" Name="Category" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Features" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="IsHelmet" Nullable="true" MaxLength="5" />
+          <Property Type="DateTime" Name="CreationDate" Nullable="true" Precision="23" />
+        </ComplexType>
+        <EntityType Name="tblDriveVehicleType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Color" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Model" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="VehicleTypeId" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="RegNo" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="OfferingSeat" Type="Int32" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Features" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsHelmet" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="CreationDate" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -249,6 +536,7 @@
           <EntitySetMapping Name="tblNotificationMasters">
             <EntityTypeMapping TypeName="LiftBuddyModel.tblNotificationMaster">
               <MappingFragment StoreEntitySet="tblNotificationMaster">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="MessageDescription" ColumnName="MessageDescription" />
@@ -299,6 +587,116 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="AllDateWiseUserStatus" FunctionName="LiftBuddyModel.Store.AllDateWiseUserStatus" />
           <FunctionImportMapping FunctionImportName="DateWiseUserStatus" FunctionName="LiftBuddyModel.Store.DateWiseUserStatus" />
+          <EntitySetMapping Name="tbleOfferRides">
+            <EntityTypeMapping TypeName="LiftBuddyModel.tbleOfferRide">
+              <MappingFragment StoreEntitySet="tbleOfferRide">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="DriveVehicleTypeId" ColumnName="DriveVehicleTypeId" />
+                <ScalarProperty Name="JourneyDate" ColumnName="JourneyDate" />
+                <ScalarProperty Name="DestinationAddress" ColumnName="DestinationAddress" />
+                <ScalarProperty Name="ViaDetail" ColumnName="ViaDetail" />
+                <ScalarProperty Name="StartAddress" ColumnName="StartAddress" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblRequestRides">
+            <EntityTypeMapping TypeName="LiftBuddyModel.tblRequestRide">
+              <MappingFragment StoreEntitySet="tblRequestRide">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="NoOfPerson" ColumnName="NoOfPerson" />
+                <ScalarProperty Name="JourneyDate" ColumnName="JourneyDate" />
+                <ScalarProperty Name="ToAddress" ColumnName="ToAddress" />
+                <ScalarProperty Name="FromAddress" ColumnName="FromAddress" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblVehicleTypes">
+            <EntityTypeMapping TypeName="LiftBuddyModel.tblVehicleType">
+              <MappingFragment StoreEntitySet="tblVehicleType">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="VehicleType" ColumnName="VehicleType" />
+                <ScalarProperty Name="VehicleTypeName" ColumnName="VehicleTypeName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spGetVehicleTypeList" FunctionName="LiftBuddyModel.Store.spGetVehicleTypeList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LiftBuddyModel.spGetVehicleTypeList_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="VehicleTypeName" ColumnName="VehicleTypeName" />
+                <ScalarProperty Name="VehicleType" ColumnName="VehicleType" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spAddRequestRideDetail" FunctionName="LiftBuddyModel.Store.spAddRequestRideDetail" />
+          <FunctionImportMapping FunctionImportName="sp_AssignCategory" FunctionName="LiftBuddyModel.Store.sp_AssignCategory" />
+          <FunctionImportMapping FunctionImportName="spDeleteReduestRideDetail" FunctionName="LiftBuddyModel.Store.spDeleteReduestRideDetail" />
+          <FunctionImportMapping FunctionImportName="spEditRequestRideDetail" FunctionName="LiftBuddyModel.Store.spEditRequestRideDetail" />
+          <FunctionImportMapping FunctionImportName="spGetReduestRideDetailById" FunctionName="LiftBuddyModel.Store.spGetReduestRideDetailById">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetReduestRideDetailListById" FunctionName="LiftBuddyModel.Store.spGetReduestRideDetailListById">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="LiftBuddyModel.RequestListContainer">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FromAddress" ColumnName="FromAddress" />
+                <ScalarProperty Name="ToAddress" ColumnName="ToAddress" />
+                <ScalarProperty Name="JourneyDate" ColumnName="JourneyDate" />
+                <ScalarProperty Name="NoOfPerson" ColumnName="NoOfPerson" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spAddDriveVehicleTypeDetail" FunctionName="LiftBuddyModel.Store.spAddDriveVehicleTypeDetail" />
+          <FunctionImportMapping FunctionImportName="spAddOfferRideDetail" FunctionName="LiftBuddyModel.Store.spAddOfferRideDetail" />
+          <FunctionImportMapping FunctionImportName="spDeleteOfferRideDetail" FunctionName="LiftBuddyModel.Store.spDeleteOfferRideDetail" />
+          <FunctionImportMapping FunctionImportName="spDeletetblDriveVehicleTypeDetail" FunctionName="LiftBuddyModel.Store.spDeletetblDriveVehicleTypeDetail" />
+          <FunctionImportMapping FunctionImportName="spEditDriveVehicleType" FunctionName="LiftBuddyModel.Store.spEditDriveVehicleType" />
+          <FunctionImportMapping FunctionImportName="spEditOfferRideDetail" FunctionName="LiftBuddyModel.Store.spEditOfferRideDetail" />
+          <FunctionImportMapping FunctionImportName="spGetOfferDetailById" FunctionName="LiftBuddyModel.Store.spGetOfferDetailById">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetOfferRideDetailListById" FunctionName="LiftBuddyModel.Store.spGetOfferRideDetailListById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LiftBuddyModel.spGetOfferRideDetailListById_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StartAddress" ColumnName="StartAddress" />
+                <ScalarProperty Name="ViaDetail" ColumnName="ViaDetail" />
+                <ScalarProperty Name="DestinationAddress" ColumnName="DestinationAddress" />
+                <ScalarProperty Name="JourneyDate" ColumnName="JourneyDate" />
+                <ScalarProperty Name="DriveVehicleTypeId" ColumnName="DriveVehicleTypeId" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetDriveVehicleTypeById" FunctionName="LiftBuddyModel.Store.spGetDriveVehicleTypeById">
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblDriveVehicleTypes">
+            <EntityTypeMapping TypeName="LiftBuddyModel.tblDriveVehicleType">
+              <MappingFragment StoreEntitySet="tblDriveVehicleType">
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="IsHelmet" ColumnName="IsHelmet" />
+                <ScalarProperty Name="Features" ColumnName="Features" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="OfferingSeat" ColumnName="OfferingSeat" />
+                <ScalarProperty Name="RegNo" ColumnName="RegNo" />
+                <ScalarProperty Name="VehicleTypeId" ColumnName="VehicleTypeId" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

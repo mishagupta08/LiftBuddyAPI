@@ -13,7 +13,11 @@ namespace DataAccess
             public string fileBytes { get; set; }
             public string fileName { get; set; }  
             public bool RemoveProfilePic { get; set; }
-    }      
+    }
+    public partial class tbleOfferRide
+    {
+        public tblDriveVehicleType tblDriveVehicleType { get; set; }
+    }
     public partial class tblUserStatistic
     {
         public int level { get; set; }             

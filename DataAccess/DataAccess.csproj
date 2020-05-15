@@ -69,7 +69,34 @@
     </Compile>
     <Compile Include="PartialClasses.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestListContainer.cs">
+      <DependentUpon>LiftBuddy.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetDriveVehicleTypeById_Result.cs">
+      <DependentUpon>LiftBuddy.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetOfferDetailById_Result.cs">
+      <DependentUpon>LiftBuddy.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetOfferRideDetailListById_Result.cs">
+      <DependentUpon>LiftBuddy.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetReduestRideDetailById_Result.cs">
+      <DependentUpon>LiftBuddy.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetReduestRideDetailListById_Result.cs">
+      <DependentUpon>LiftBuddy.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetVehicleTypeList_Result.cs">
+      <DependentUpon>LiftBuddy.tt</DependentUpon>
+    </Compile>
     <Compile Include="Split_Result.cs">
+      <DependentUpon>LiftBuddy.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblDriveVehicleType.cs">
+      <DependentUpon>LiftBuddy.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbleOfferRide.cs">
       <DependentUpon>LiftBuddy.tt</DependentUpon>
     </Compile>
     <Compile Include="tblFollower.cs">
@@ -90,7 +117,13 @@
     <Compile Include="tblPointLedger.cs">
       <DependentUpon>LiftBuddy.tt</DependentUpon>
     </Compile>
+    <Compile Include="tblRequestRide.cs">
+      <DependentUpon>LiftBuddy.tt</DependentUpon>
+    </Compile>
     <Compile Include="tblUser.cs">
+      <DependentUpon>LiftBuddy.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblVehicleType.cs">
       <DependentUpon>LiftBuddy.tt</DependentUpon>
     </Compile>
   </ItemGroup>

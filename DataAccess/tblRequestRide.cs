@@ -12,12 +12,15 @@ namespace DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class tblNotificationMaster
+    public partial class tblRequestRide
     {
-        public int Id { get; set; }
-        public string Type { get; set; }
-        public string MessageDescription { get; set; }
-        public string RedirectTo { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public decimal Id { get; set; }
+        public string FromAddress { get; set; }
+        public string ToAddress { get; set; }
+        public Nullable<System.DateTime> JourneyDate { get; set; }
+        public Nullable<int> NoOfPerson { get; set; }
+        public Nullable<System.DateTime> CreationDate { get; set; }
+        public Nullable<System.DateTime> ModifiedDate { get; set; }
+        public Nullable<decimal> UserId { get; set; }
     }
 }
