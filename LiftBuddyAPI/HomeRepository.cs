@@ -2,6 +2,7 @@
 using LiftBuddyAPI.Models;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity.Core.Objects;
 using System.Data.SqlClient;
@@ -306,7 +307,9 @@ namespace LiftBuddyAPI
                     {
                         var mainXml = Serialize(detail);
                         var res = await Task.Run(() => entities1.spAddRequestRideDetail(mainXml));
-                        
+                        var serializer = new JavaScriptSerializer() { MaxJsonLength = 2147483647 };
+                        var r = serializer.Serialize(res);
+
                         if (res == -1)
                         {
                             responseDetail.Status = true;
@@ -437,24 +440,45 @@ namespace LiftBuddyAPI
                         var mainXml = Serialize(detail.tblDriveVehicleType);
                         mainXml = Serialize(detail);
 
-                        ObjectParameter identityParameter = new ObjectParameter("Identity", typeof(int));
-
-                        var res = await Task.Run(() => entities1.spAddDriveVehicleTypeDetail(mainXml, identityParameter));
-                        var retId = Convert.ToInt32(identityParameter.Value);
-                        if (retId == 0)
+                        var res = await Task.Run(() => entities1.spAddDriveVehicleTypeDetail(mainXml));
+                        if (res == null)
                         {
                             responseDetail.Status = false;
-                            responseDetail.ResponseValue = "Something went wrong. Please try again later.";
+                            responseDetail.ResponseValue = "Error while Adding drive vehicle type detail. Recieving null.";
                         }
                         else
                         {
-                            detail.DriveVehicleTypeId = retId;
-                            mainXml = Serialize(detail);
-                           var res1 = await Task.Run(() => entities1.spAddOfferRideDetail(mainXml));
-                            if (res1 == -1)
+                            var jsonData = serializer.Serialize(res);
+                            var resultObject = JsonConvert.DeserializeObject<List<tblDriveVehicleType>>(jsonData);
+                            if (resultObject == null || resultObject.Count == 0)
                             {
-                                responseDetail.Status = true;
-                                responseDetail.ResponseValue = "Record Saved Successfully.";
+                                responseDetail.Status = false;
+                                responseDetail.ResponseValue = "drive vehicle type detail added but return object is NULL";
+                            }
+                            else
+                            {
+                                var driveVehicleId = resultObject.FirstOrDefault().Id;
+                                if (driveVehicleId == 0)
+                                {
+                                    responseDetail.Status = false;
+                                    responseDetail.ResponseValue = "drive vehicle type detail added but recieing id null or 0 .";
+                                }
+                                else
+                                {
+                                    detail.DriveVehicleTypeId = driveVehicleId;
+                                    mainXml = Serialize(detail);
+                                    var res1 = await Task.Run(() => entities1.spAddOfferRideDetail(mainXml));
+                                    if (res1 == -1)
+                                    {
+                                        responseDetail.Status = true;
+                                        responseDetail.ResponseValue = "Record Saved Successfully.";
+                                    }
+                                    else
+                                    {
+                                        responseDetail.Status = false;
+                                        responseDetail.ResponseValue = "Something went wrong while adding offer ride detail. Please try again later.";
+                                    }
+                                }
                             }
                         }
                     }
@@ -503,7 +527,7 @@ namespace LiftBuddyAPI
                             responseDetail.ResponseValue = "Please send User Id";
                         }
 
-                        SqlConnection con = new SqlConnection("metadata=res://*/LiftBuddy.csdl|res://*/LiftBuddy.ssdl|res://*/LiftBuddy.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=103.71.99.8;initial catalog=LiftBuddy;user id=liftBuddy;password=GHDDSRTYYUI!@$;MultipleActiveResultSets=True;App=EntityFramework&quot;");
+                        SqlConnection con = new SqlConnection("data source=103.71.99.8;initial catalog=LiftBuddy;user id=liftBuddy;password=GHDDSRTYYUI!@$;MultipleActiveResultSets=True;App=EntityFramework");
                         SqlCommand cmd = new SqlCommand();
                         SqlDataAdapter da = new SqlDataAdapter();
                         DataSet ds = new DataSet();

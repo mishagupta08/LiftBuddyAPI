@@ -171,13 +171,22 @@ namespace DataAccess
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RequestListContainer>("spGetReduestRideDetailListById", idParameter, requestParameter);
         }
     
-        public virtual ObjectResult<Nullable<int>> spAddDriveVehicleTypeDetail(string recordXml, ObjectParameter identity)
+        public virtual ObjectResult<tblDriveVehicleType> spAddDriveVehicleTypeDetail(string recordXml)
         {
             var recordXmlParameter = recordXml != null ?
                 new ObjectParameter("recordXml", recordXml) :
                 new ObjectParameter("recordXml", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("spAddDriveVehicleTypeDetail", recordXmlParameter, identity);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<tblDriveVehicleType>("spAddDriveVehicleTypeDetail", recordXmlParameter);
+        }
+    
+        public virtual ObjectResult<tblDriveVehicleType> spAddDriveVehicleTypeDetail(string recordXml, MergeOption mergeOption)
+        {
+            var recordXmlParameter = recordXml != null ?
+                new ObjectParameter("recordXml", recordXml) :
+                new ObjectParameter("recordXml", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<tblDriveVehicleType>("spAddDriveVehicleTypeDetail", mergeOption, recordXmlParameter);
         }
     
         public virtual int spAddOfferRideDetail(string recordXml)
